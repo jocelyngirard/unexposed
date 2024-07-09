@@ -9,4 +9,11 @@ sealed class MediaPickerEvent extends Equatable {
 
 final class FromGalleryMediaPickerEvent extends MediaPickerEvent {}
 
-final class DropZoneMediaPickerEvent extends MediaPickerEvent {}
+final class DropZoneMediaPickerEvent extends MediaPickerEvent {
+  final PerformDropEvent dropEvent;
+
+  const DropZoneMediaPickerEvent(this.dropEvent);
+
+  @override
+  List<Object> get props => [dropEvent];
+}
