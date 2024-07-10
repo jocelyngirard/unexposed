@@ -19,7 +19,9 @@ const videoFormats = [
   Formats.webm,
 ];
 
-const handledFormats = [...imageFormats, ...videoFormats];
+const handledFormats = [
+  ...imageFormats, /*...videoFormats*/
+];
 
 class DropZone extends StatelessWidget {
   final Widget child;
@@ -29,7 +31,8 @@ class DropZone extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropRegion(
-      formats: Formats.standardFormats,//handledFormats,
+      formats: Formats.standardFormats,
+      //handledFormats,
       hitTestBehavior: HitTestBehavior.opaque,
       onDropOver: (event) =>
           event.session.allowedOperations.contains(DropOperation.copy)
@@ -38,7 +41,7 @@ class DropZone extends StatelessWidget {
       onDropEnter: (event) {},
       onDropLeave: (event) {},
       onPerformDrop: (event) async => BlocProvider.of<MediaPickerBloc>(context)
-        ..add(DropZoneMediaPickerEvent(event)),
+        ..add(AddMediaFromDropZoneEvent(event)),
       child: child,
     );
   }

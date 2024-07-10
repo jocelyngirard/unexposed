@@ -13,24 +13,21 @@ part 'media_picker_event.dart';
 part 'media_picker_state.dart';
 
 class MediaPickerBloc extends Bloc<MediaPickerEvent, MediaPickerState> {
-
   final Set<MediaFile> medias = {};
 
   MediaPickerBloc() : super(EmptyMediaPickerState()) {
-    on<FromGalleryMediaPickerEvent>((event, emit) async {
+    on<AddMediaFromPickerEvent>((event, emit) async {
       emit(LoadingMediaPickerState());
 
       final ImagePicker picker = ImagePicker();
-      final List<XFile> images = await picker.pickMultipleMedia();
+      final List<XFile> images = await picker.pickMultiImage();
 
       final mediaFiles = images.toMediaFiles();
       log(mediaFiles.toString(), name: "Adds from FromGalleryMediaPickerEvent");
-      medias.addAll(mediaFiles);
-      log(medias.toString(), name: "Medias");
-      emit(MediaPickerDataState(medias.toList()));
+      emit(saveAndEmitMedias(mediaFiles));
     });
 
-    on<DropZoneMediaPickerEvent>((event, emit) async {
+    on<AddMediaFromDropZoneEvent>((event, emit) async {
       emit(LoadingMediaPickerState());
 
       final List<MediaFile?> mediaFilesFromItems = await Future.wait(
@@ -47,9 +44,28 @@ class MediaPickerBloc extends Bloc<MediaPickerEvent, MediaPickerState> {
 
       final mediaFiles = mediaFilesFromItems.nonNulls.toList();
       log(mediaFiles.toString(), name: "Adds from DropZoneMediaPickerEvent");
-      medias.addAll(mediaFiles);
-      log(medias.toString(), name: "Medias");
-      emit(MediaPickerDataState(medias.toList()));
+      emit(saveAndEmitMedias(mediaFiles));
     });
+
+    on<RemoveMediaPickerEvent>((event, emit) async {
+      emit(saveAndEmitMedias([event.file], remove: true));
+    });
+  }
+
+  MediaPickerState saveAndEmitMedias(
+    List<MediaFile> mediaFiles, {
+    bool remove = false,
+  }) {
+    if (remove) {
+      medias.removeAll(mediaFiles);
+    } else {
+      medias.addAll(mediaFiles);
+    }
+    log(medias.toString(), name: "Medias");
+    if (medias.isEmpty) {
+      return EmptyMediaPickerState();
+    } else {
+      return MediaPickerDataState(medias.toList());
+    }
   }
 }

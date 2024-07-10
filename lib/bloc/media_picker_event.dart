@@ -7,13 +7,22 @@ sealed class MediaPickerEvent extends Equatable {
   List<Object> get props => [];
 }
 
-final class FromGalleryMediaPickerEvent extends MediaPickerEvent {}
+final class AddMediaFromPickerEvent extends MediaPickerEvent {}
 
-final class DropZoneMediaPickerEvent extends MediaPickerEvent {
+final class AddMediaFromDropZoneEvent extends MediaPickerEvent {
   final PerformDropEvent dropEvent;
 
-  const DropZoneMediaPickerEvent(this.dropEvent);
+  const AddMediaFromDropZoneEvent(this.dropEvent);
 
   @override
   List<Object> get props => [dropEvent];
+}
+
+final class RemoveMediaPickerEvent extends MediaPickerEvent {
+  final MediaFile file;
+
+  const RemoveMediaPickerEvent(this.file);
+
+  @override
+  List<Object> get props => [file];
 }
