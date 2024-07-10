@@ -14,7 +14,15 @@ class PickerPage extends StatelessWidget {
           builder: (context, state) => switch (state) {
             LoadingMediaPickerState() => const CircularProgressIndicator(),
             MediaPickerDataState() => const Placeholder(color: Colors.blue),
-            _ => const Placeholder(color: Colors.green),
+            _ => Placeholder(
+                color: Colors.green,
+                child: ElevatedButton(
+                    onPressed: () {
+                      BlocProvider.of<MediaPickerBloc>(context)
+                          .add(FromGalleryMediaPickerEvent());
+                    },
+                    child: const Text("Load...")),
+              ),
           },
         ),
       ),
