@@ -29,7 +29,7 @@ class DropZone extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropRegion(
-      formats: handledFormats,
+      formats: Formats.standardFormats,//handledFormats,
       hitTestBehavior: HitTestBehavior.opaque,
       onDropOver: (event) =>
           event.session.allowedOperations.contains(DropOperation.copy)

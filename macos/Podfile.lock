@@ -48,6 +48,6 @@ SPEC CHECKSUMS:
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   super_native_extensions: 85efee3a7495b46b04befcfc86ed12069264ebf3
 
-PODFILE CHECKSUM: 9ebaf0ce3d369aaa26a9ea0e159195ed94724cf3
+PODFILE CHECKSUM: 6acf97521436d16fc31cd5e1a02000905acdb3ae
 
 COCOAPODS: 1.13.0
